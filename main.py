@@ -8,6 +8,7 @@ from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
+from kivy.uix.scrollview import ScrollView
 
 # Get secrets
 # client_key = os.environ['CLIENT_KEY']
@@ -16,11 +17,16 @@ from kivy.uix.textinput import TextInput
 # resource_owner_secret = os.environ['RESOURCE_OWNER_SECRET']
 
 
+# The main widget for the main menu Kivy app
 class MainWidget(Widget):
     def on_click(self, tw_btn):
-        self.t_label.text = self.tw_tbox.text
+        self.tw_showbox.text = self.tw_tbox.text
+
+    def refresh(self):
+        self.tw_showbox.text = "fresh af"
 
 
+# The main menu for the Kivy app
 class MainMenu(App):
     def build(self):
         return MainWidget()

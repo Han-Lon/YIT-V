@@ -1,15 +1,32 @@
 <MainWidget>:
     tw_btn: submit_tweet_button
     tw_tbox: tweet_text_box
-    t_label: test_label
+    tw_showbox: tweet_show_box
     orientation: "vertical"
-    Label:
-        id: test_label
-        font_size: 42
-        center_x: root.width / 4
-        top: root.top - 50
-        text: "Input text will appear here"
+    ScrollView:
+        do_scroll_x: False
+        do_scroll_y: True
+        x: 0
+        width: root.width - refresh_button.width
+        top: root.top
+        height: 1000
+        Label:
+            id: tweet_show_box
+            size_hint_y: None
+            height: self.texture_size[1]
+            text_size: self.width, None
+            font_size: 20
+            multiline: True
+            text: "Tweets will appear here"
+    Button:
+        id: refresh_button
+        text: "Refresh"
+        on_press: root.refresh()
+        x: root.width - 100
+        top: root.top
+        width: 100
     BoxLayout:
+        id: bottom_bar
         height: "40dp"
         width: root.width
         size_hint_y: None
