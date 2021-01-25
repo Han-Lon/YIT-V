@@ -35,17 +35,25 @@ class MainWidget(Widget):
         return response
 
     def get_tweets(self):
-        url = "https://api.twitter.com/2/tweets/1351290770804920321?tweet.fields=created_at,attachments&expansions=author_id"
+        # url = "https://api.twitter.com/2/tweets/1351290770804920321?tweet.fields=created_at,attachments&expansions=author_id"
+        # TODO build functionality to save a small amount of recent tweets. Hash the recent tweets file and then compare to see if we need to pull new tweets. This will save on API calls
+        url = "https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=1350810963298156546"
         response = self.session.get(url)
-        print(response)
-        return response
+        delimiter = '-' * 150
+        label_text = ""
+        for tweet in response.json():
+            label_text += "Time: {time} User: {username} Tweet Body: {body}\n{delimiter}\n\n".format(time=tweet['created_at'],
+                                                                                                     username=tweet['user']['screen_name'],
+                                                                                                     body=tweet['text'],
+                                                                                                     delimiter=delimiter)
+        return label_text
 
     def on_click(self, tw_btn):
+        self.post_tweet(self.tw_tbox.text)
         self.tw_showbox.text = self.tw_tbox.text
 
     def refresh(self):
-        self.get_tweets()
-        self.tw_showbox.text = "fresh af"
+        self.tw_showbox.text = self.get_tweets()
 
 
 # The main menu for the Kivy app
