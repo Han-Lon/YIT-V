@@ -12,6 +12,7 @@
         height: 1000
         Label:
             id: tweet_show_box
+            font_name: "font/OpenSansEmoji"
             size_hint_y: None
             height: self.texture_size[1]
             text_size: self.width, None
@@ -32,9 +33,10 @@
         size_hint_y: None
         TextInput:
             id: tweet_text_box
+            font_name: "font/OpenSansEmoji"
             size_hint_x: root.width - 100
         Button:
             id: submit_tweet_button
-            text: "Print Tweet"
+            text: "Post Tweet, G"
             on_press: root.on_click(self)
             size_hint_x: 100 - root.width + root.width
