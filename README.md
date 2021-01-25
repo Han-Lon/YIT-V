@@ -30,6 +30,17 @@ stripped of user interactions
 - Ability to send and receive DMs (maybe)
 - Implement an NLP-based option so you can analyze the sentiment analysis of your tweets
 
-## Roadmap v0.1
-- Implement CLI tool to submit tweets and retrieve most recent tweets (without any 
-information regarding retweets, favorites, user interactions, etc)
+## Roadmap v0.2
+- Beautify Kivy GUI
+  - Emoji support
+  - Nicer background
+  - Better contrast between GUI elements
+- Add login screen to dynamically create OAuth sessions instead of relying on environment variables and developer creds
+- Implement a more efficient method of checking recent tweets rather than always calling the API when pressing "Refresh"
+
+
+## Release Log
+- ### v0.1
+  - Functional Kivy-based GUI built out (not pretty yet, but it works 😁)
+  - Can post tweets to account using GUI
+  - Can retrieve list of user's tweets using GUI. Tweets display in a scrollbox
