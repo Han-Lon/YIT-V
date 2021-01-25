@@ -37,6 +37,7 @@ class MainWidget(Widget):
     def get_tweets(self):
         # url = "https://api.twitter.com/2/tweets/1351290770804920321?tweet.fields=created_at,attachments&expansions=author_id"
         # TODO build functionality to save a small amount of recent tweets. Hash the recent tweets file and then compare to see if we need to pull new tweets. This will save on API calls
+        # TODO remove static set user_id value and replace with dynamic variable
         url = "https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=1350810963298156546"
         response = self.session.get(url)
         delimiter = '-' * 150
