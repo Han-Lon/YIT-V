@@ -1,13 +1,14 @@
 <LoginScreen>:
+    name: "LoginScreen"
     BoxLayout:
         Image:
             id: "twitter-login"
-            center_x: root.width / 2
-            center_y: root.height / 2
             source: "img/sign-in-with-twitter-gray.png"
             on_touch_down: root.do_login()
 
 <MainWidget>:
+    # TODO The refresh button broke after changing this from class Widget to Screen. Need to fix
+    name: "MainWidget"
     tw_btn: submit_tweet_button
     tw_tbox: tweet_text_box
     tw_showbox: tweet_show_box

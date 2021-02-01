@@ -75,10 +75,21 @@ def do_twitter_login():
     return get_twitter_user_session(tokens[0], tokens[1])
 
 
+class LoginScreen(Screen):
+    def __init__(self, name, sm):
+        super().__init__(name=name)
+        self.sm = sm
+
+    def do_login(self):
+        tw = do_twitter_login()
+        self.sm.add_widget(MainWidget(name="MainMenu", session=tw))
+        self.sm.current = "MainMenu"
+
+
 # The main widget for the main menu Kivy app
-class MainWidget(Widget):
-    def __init__(self, session):
-        super().__init__()
+class MainWidget(Screen):
+    def __init__(self, name, session):
+        super().__init__(name=name)
         self.session = session
 
     # Send a request to the endpoint using our OAuth V1.0 session
@@ -115,9 +126,12 @@ class MainWidget(Widget):
 # The main menu for the Kivy app
 class MainMenu(App):
     def build(self):
-        tw_session = do_twitter_login()
-        return MainWidget(tw_session)
+        sm = ScreenManager()
+        sm.add_widget(LoginScreen(name="login", sm=sm))
+        sm.current = "login"
+        return sm
 
 
 if __name__ == '__main__':
     MainMenu().run()
+
