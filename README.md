@@ -21,6 +21,11 @@ yodeling into it instead with Yodeling Into The Void!
   - `export RESOURCE_OWNER_KEY=<access_token_for_account>`
   - `export RESOURCE_OWNER_SECRET=<access_token_secret_for_account>`
   - `python main.py`
+  
+## Infrastructure Setup
+You'll need a publicly reachable endpoint for Twitter to deliver an "OAuth verifier" in a section of Twitter's
+3-legged OAuth credentials process. Refer to the [YIT-V_Infrastructure project](https://github.com/Han-Lon/YIT-V_Infrastructure)
+for how to set this up. (It's easy-- most of this process is automated via Docker)
 
 ## Planned features
 - A more descriptive README
@@ -34,6 +39,7 @@ stripped of user interactions
 - Split Twitter auth into its own class
 - Find some way to securely persist sessions so that each relaunch of the app doesn't require a fresh login
 - Image support (tentative)
+- Add more error handling, especially around posting/retrieving tweets and logging in
 
 
 ## Release Log
