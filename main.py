@@ -17,6 +17,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.scrollview import ScrollView
 from kivy.graphics.texture import Texture
 from kivy.graphics import Rectangle
+from kivy.properties import StringProperty
 
 # Get secrets
 client_key = os.environ['CLIENT_KEY']
@@ -77,6 +78,27 @@ def do_twitter_login():
     return get_twitter_user_session(tokens[0], tokens[1])
 
 
+class Table(BoxLayout):
+    def __init__(self, **kwargs):
+        super(Table, self).__init__(**kwargs)
+        self.add_widget(Row("Tweets go here"))
+
+    def update_table(self, tweets):
+        try:
+            self.remove_widget(Row("Tweets go here"))
+        except Exception as e:
+            pass
+        for tweet in tweets:
+            self.add_widget(Row(tweet))
+
+
+class Row(BoxLayout):
+    txt = StringProperty()
+    def __init__(self, row, **kwargs):
+        super(Row, self).__init__(**kwargs)
+        self.txt = row
+
+
 class LoginScreen(Screen):
     def __init__(self, name, sm):
         super().__init__(name=name)
@@ -108,20 +130,23 @@ class MainWidget(Screen):
         url = "https://api.twitter.com/1.1/statuses/home_timeline.json"
         response = self.session.get(url)
         delimiter = '-' * 150
-        label_text = ""
+        label_text = []
         for tweet in response.json():
-            label_text += "Time: {time} User: {username} Tweet Body: {body}\n{delimiter}\n\n".format(time=tweet['created_at'],
+            label_text.append("{delimiter}\nTime: {time} \nUser: {username} \nTweet Body: {body}\n{delimiter}\n\n".format(time=tweet['created_at'],
                                                                                                      username=tweet['user']['screen_name'],
                                                                                                      body=tweet['text'],
                                                                                                      delimiter=delimiter)
+                              )
         return label_text
 
     def on_click(self, tw_btn):
         self.post_tweet(self.tw_tbox.text)
         self.tw_showbox.text = self.tw_tbox.text
 
-    def refresh(self):
-        self.tw_showbox.text = self.get_tweets()
+    def refresh(self, tw_box):
+        self.tw_showbox.clear_widgets()
+        for tweet in self.get_tweets():
+            self.tw_showbox.add_widget(Row(tweet))
 
 
 # The main menu for the Kivy app
