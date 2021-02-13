@@ -52,10 +52,17 @@
         TextInput:
             id: tweet_text_box
             font_name: "font/OpenSansEmoji"
-            size_hint_x: root.width - 100
+            size_hint_x: root.width - 200
+        Button:
+            id: submit_media_button
+            text: "Media Upload"
+            # on_press: root.on_click(self)
+            on_press: root.upload_media()
+            size_hint_x: 100 - root.width + root.width
         Button:
             id: submit_tweet_button
             text: "Post Tweet, G"
+            # on_press: root.on_click(self)
             on_press: root.on_click(self)
             size_hint_x: 100 - root.width + root.width
 

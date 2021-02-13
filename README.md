@@ -37,8 +37,10 @@ stripped of user interactions
 
 ## Roadmap v0.3
 - Split Twitter auth into its own class
-- Find some way to securely persist sessions so that each relaunch of the app doesn't require a fresh login
-- Image support (tentative)
+- ~~Find some way to securely persist sessions so that each relaunch of the app doesn't require a fresh login~~
+  - Per research, there isn't a safe way to do this. Twitter will persist sessions on their end, but fully storing
+  the session tokens locally is not a good idea at this time. Not gonna risk a data breach on a hobby side project
+- Image support
 - Add more error handling, especially around posting/retrieving tweets and logging in
 
 
