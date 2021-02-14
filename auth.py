@@ -28,7 +28,12 @@ class TwitterLogin():
 
     # Use the OAuth verifier from above method to get access tokens for this user account
     def get_access_token(self, resource_key, resource_secret):
-        verifier = input('\nOAuth Verifier: ')
+        while True:
+            verifier = input('\nOAuth Verifier: ')
+            if len(verifier) < 1:
+                print('No input found. Try again \n')
+            else:
+                break
         twitter = OAuth1Session(client_key=self.client_key,
                                 client_secret=self.client_secret,
                                 resource_owner_key=resource_key,

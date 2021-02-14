@@ -34,6 +34,7 @@ stripped of user interactions
 - An "allowlist" of users who you do want to see in your replies
 - Ability to send and receive DMs (maybe)
 - Implement an NLP-based option so you can analyze the sentiment analysis of your tweets
+- Ability to upload videos
 
 ## Roadmap v0.3
 - Split Twitter auth into its own class

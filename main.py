@@ -5,9 +5,11 @@ from auth import TwitterLogin
 import urllib
 import os
 from kivy.uix.screenmanager import ScreenManager, Screen
+from datetime import datetime
 
 # Kivy imports -- do not remove these even if your IDE says they are not in use!
 from kivy.app import App
+from kivy.config import Config
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
@@ -69,12 +71,17 @@ class MainWidget(Screen):
 
     # Send a request to the endpoint using our OAuth V1.0 session
     def post_tweet(self, content, media_ids=None):
-        if media_ids is None:
-            urlsafe = urllib.parse.urlencode({'status': content})
-        else:
-            urlsafe = urllib.parse.urlencode({'status': content, 'media_ids': media_ids})
+        url_dict = {}
+        url_dict['status'] = content
+        if media_ids is not None:
+            url_dict['media_ids'] = media_ids
+        if self.tw_sensitive.active:
+            url_dict['possibly_sensitive'] = "true"
+        urlsafe = urllib.parse.urlencode(url_dict)
         url = "https://api.twitter.com/1.1/statuses/update.json?{}".format(urlsafe)
         response = self.session.post(url)
+        if response.status_code != 200:
+            raise ValueError("Error! Expecting response status 200, received {}\n Response JSON: {}".format(response.status_code, response.json()))
         print(response)
         return response
 
@@ -83,6 +90,8 @@ class MainWidget(Screen):
         # TODO build functionality to save a small amount of recent tweets. Hash the recent tweets file and then compare to see if we need to pull new tweets. This will save on API calls
         url = "https://api.twitter.com/1.1/statuses/home_timeline.json"
         response = self.session.get(url)
+        if response.status_code != 200:
+            raise ValueError("Error! Expecting response status 200, received {}\n Response JSON: {}".format(response.status_code, response.json()))
         delimiter = '-' * 150
         label_text = []
         for tweet in response.json():
@@ -110,6 +119,9 @@ class MainWidget(Screen):
         url = "https://upload.twitter.com/1.1/media/upload.json?{}".format(urlsafe)
         print("Uploading image... \n")
         response = self.session.post(url, files={"media": media_data})
+
+        if response.status_code != 200:
+            raise ValueError("Error! Expecting response status 200, received {}\n Response JSON: {}".format(response.status_code, response.json()))
         print("Upload image result: {}\n".format(response.status_code))
         print('Retrieved media ID, sending status update...\n')
         if self.tw_tbox.text is None or self.tw_tbox.text == "":
@@ -136,6 +148,9 @@ if __name__ == '__main__':
     # tkinter related code for the media upload file dialogue-- if this isn't here, an empty Tkinter frame pops up when uploading media
     tk_root = tkinter.Tk()
     tk_root.withdraw()
+
+    # Weird Kivy bug where right clicking with a mouse with multi-touch emulation mode enabled
+    Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 
     MainMenu().run()
 
