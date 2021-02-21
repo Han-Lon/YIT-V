@@ -3,4 +3,4 @@ __pycache__/
 venv/
 
 # This a scratchpad file that I don't want in version control
-main2.py
+main-*.py

@@ -21,6 +21,7 @@
     tw_btn: submit_tweet_button
     tw_tbox: tweet_text_box
     tw_showbox: tweet_show_box
+    tw_sensitive: sensitive_check
     orientation: "vertical"
     Image:
         size: self.width, self.height
@@ -44,6 +45,22 @@
         on_press: root.refresh(tweet_show_box)
         pos_hint: {'x':.8, 'y':.8}
         size_hint: (.2, .2)
+    Label:
+        text: "Mark as sensitive/spoiler?"
+        pos_hint: {'x':.65, 'y':.2}
+        size_hint: (.15, .15)
+    CheckBox:
+        id: sensitive_check
+        pos_hint: {'x':.8, 'y':.2}
+        size_hint: (.15, .15)
+        canvas.before:
+            Color:
+                rgb: 0,255,255
+            Rectangle:
+                pos: self.center_x - 8, self.center_y - 8
+                size: [16, 16]
+
+
     BoxLayout:
         id: bottom_bar
         height: "40dp"
@@ -52,10 +69,17 @@
         TextInput:
             id: tweet_text_box
             font_name: "font/OpenSansEmoji"
-            size_hint_x: root.width - 100
+            size_hint_x: root.width - 200
+        Button:
+            id: submit_media_button
+            text: "Media Upload"
+            # on_press: root.on_click(self)
+            on_press: root.upload_media()
+            size_hint_x: 100 - root.width + root.width
         Button:
             id: submit_tweet_button
             text: "Post Tweet, G"
+            # on_press: root.on_click(self)
             on_press: root.on_click(self)
             size_hint_x: 100 - root.width + root.width
 
