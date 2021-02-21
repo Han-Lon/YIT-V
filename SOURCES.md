@@ -1,0 +1,4 @@
+- For how to authenticate to Twitter using the OAuth 3-legged handshake
+  - Ahmad Bilesanmi at https://medium.com/bilesanmiahmad/how-to-login-with-twitter-api-using-python-997333d436d2
+- For the ngrok Docker container
+  - wernight at https://hub.docker.com/r/wernight/ngrok/
