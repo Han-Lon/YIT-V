@@ -31,6 +31,7 @@ client_secret = os.environ['CLIENT_SECRET']
 # resource_owner_secret = os.environ['RESOURCE_OWNER_SECRET']
 
 class Table(BoxLayout):
+    """Table for the ScrollBox-- holds Labels containing each tweet"""
     def __init__(self, **kwargs):
         super(Table, self).__init__(**kwargs)
         self.add_widget(Row("Tweets go here"))
@@ -45,6 +46,7 @@ class Table(BoxLayout):
 
 
 class Row(BoxLayout):
+    """Row for each Label in the Table (from above class)"""
     txt = StringProperty()
     def __init__(self, row, **kwargs):
         super(Row, self).__init__(**kwargs)
@@ -52,19 +54,21 @@ class Row(BoxLayout):
 
 
 class LoginScreen(Screen):
+    """The Twitter login screen-- first window to show up in YIT-V user workflow"""
     def __init__(self, name, sm):
         super().__init__(name=name)
         self.sm = sm
 
     def do_login(self):
+        # Instantiate a TwitterLogin class and receive an authenticated OAuth session
         tw_class = TwitterLogin(client_key=client_key, client_secret=client_secret)
         tw = tw_class.do_twitter_login()
         self.sm.add_widget(MainWidget(name="MainMenu", session=tw))
         self.sm.current = "MainMenu"
 
 
-# The main widget for the main menu Kivy app
 class MainWidget(Screen):
+    """The main widget for the main menu Kivy app"""
     def __init__(self, name, session):
         super().__init__(name=name)
         self.session = session
@@ -86,8 +90,7 @@ class MainWidget(Screen):
         return response
 
     def get_tweets(self):
-        # url = "https://api.twitter.com/2/tweets/1351290770804920321?tweet.fields=created_at,attachments&expansions=author_id"
-        # TODO build functionality to save a small amount of recent tweets. Hash the recent tweets file and then compare to see if we need to pull new tweets. This will save on API calls
+        # Using authenticated TwitterLogin OAuth session, retrieve the currently logged in user's tweets
         url = "https://api.twitter.com/1.1/statuses/home_timeline.json"
         response = self.session.get(url)
         if response.status_code != 200:
@@ -103,10 +106,12 @@ class MainWidget(Screen):
         return label_text
 
     def on_click(self, tw_btn):
+        # On clicking the "Refresh" button on the main menu, retrieve all tweets and display in Kivy window
         self.post_tweet(self.tw_tbox.text)
         self.tw_showbox.text = self.tw_tbox.text
 
     def upload_media(self):
+        # Upload an image file to Twitter, with any text in the YITV textbox attached
         filename = askopenfilename(filetypes=(("Image files", "*.jpg;*.jpeg;*.png;*.gif"),
                                               ("All file", "*.*"))
                                    )
